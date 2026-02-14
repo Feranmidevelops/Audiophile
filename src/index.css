@@ -1,0 +1,47 @@
+/* index.css */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: 'Manrope';
+  src: url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;700&display=swap');
+}
+
+@layer base {
+  html {
+    font-family: 'Manrope', sans-serif;
+  }
+  
+  h1 {
+    @apply text-[56px] font-bold leading-[58px] tracking-[2px] uppercase;
+  }
+  
+  h2 {
+    @apply text-[40px] font-bold leading-[44px] tracking-[1.5px] uppercase;
+  }
+  
+  h3 {
+    @apply text-[32px] font-bold leading-[36px] tracking-[1.5px] uppercase;
+  }
+  
+  h4 {
+    @apply text-[28px] font-bold leading-[38px] tracking-[2px] uppercase;
+  }
+  
+  h5 {
+    @apply text-[24px] font-bold leading-[33px] tracking-[1.7px] uppercase;
+  }
+  
+  h6 {
+    @apply text-[18px] font-bold leading-[24px] tracking-[1.3px] uppercase;
+  }
+  
+  .overline {
+    @apply text-[14px] leading-[19px] tracking-[10px] uppercase font-normal;
+  }
+  
+  .subtitle {
+    @apply text-[13px] leading-[25px] tracking-[1px] uppercase font-bold;
+  }
+}
