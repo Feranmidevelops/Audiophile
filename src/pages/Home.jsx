@@ -1,4 +1,4 @@
-
+// pages/Home.jsx (Updated with proper routing)
 import React from 'react';
 import Layout from '../components/Layout';
 import CategoryNav from '../components/CategoryNav';
@@ -13,7 +13,7 @@ const Home = () => {
       <section className="bg-black text-white">
         <div className="container mx-auto px-6 py-16 flex justify-between items-center">
           <div className="max-w-md">
-            <p className="text-[#D0BDA4] text-[14px] tracking-[10px] mb-4 opacity-50">NEW PRODUCT</p>
+            <p className="text-[#D87D4A] text-[14px] tracking-[10px] mb-4 opacity-50">NEW PRODUCT</p>
             <h2 className="text-[56px] font-bold leading-[58px] tracking-[2px] mb-6">
               XX99 MARK II<br />HEADPHONES
             </h2>
@@ -22,12 +22,14 @@ const Home = () => {
             </p>
             <Link 
               to="/headphones"
-              className="inline-block bg-[#D0BDA4] hover:bg-[#F8AF85] text-white px-8 py-4 text-[13px] font-bold tracking-[1px] transition-colors"
+              className="inline-block bg-[#D87D4A] hover:bg-[#F8AF85] text-white px-8 py-4 text-[13px] font-bold tracking-[1px] transition-colors"
             >
               SEE PRODUCT
             </Link>
           </div>
-          <div className="w-96 h-96 bg-gray-800 rounded-full"></div>
+          <div className="w-96 h-96">
+            <img src="/heroheadphones.png" alt="heroheadphone" object-cover/>
+          </div>
         </div>
       </section>
 
@@ -35,8 +37,10 @@ const Home = () => {
 
       {/* ZX9 Speaker */}
       <section className="container mx-auto px-6 mb-12">
-        <div className="bg-[#D0BDA4] rounded-lg p-16 flex items-center justify-between overflow-hidden">
-          <div className="w-96 h-96 bg-black/20 rounded-full -ml-24"></div>
+        <div className="bg-[rgb(216,125,74)] rounded-lg p-16 flex items-center justify-between">
+          <div className="w-auto h-[400px] -bottom-12 ">
+              <img src="/zx9.png" alt="" className='w-auto h-full ' />
+          </div>
           <div className="text-white max-w-md">
             <h2 className="text-[56px] font-bold leading-[58px] tracking-[2px] mb-6">
               ZX9<br />SPEAKER
@@ -50,13 +54,14 @@ const Home = () => {
             >
               SEE PRODUCT
             </Link>
+            
           </div>
         </div>
       </section>
 
       {/* ZX7 Speaker */}
       <section className="container mx-auto px-6 mb-12">
-        <div className="bg-[#F1F1F1] rounded-lg p-16 bg-cover bg-center">
+        <div className="bg-[url(/zx7speaker.png)] rounded-lg p-16 bg-no-repeat bg-cover bg-[center_70%] ">
           <div className="max-w-md">
             <h3 className="text-[28px] font-bold tracking-[2px] mb-8">ZX7 SPEAKER</h3>
             <Link 
@@ -66,13 +71,16 @@ const Home = () => {
               SEE PRODUCT
             </Link>
           </div>
+          
         </div>
       </section>
 
       {/* YX1 Earphones */}
       <section className="container mx-auto px-6 mb-24">
         <div className="grid grid-cols-2 gap-8">
-          <div className="bg-[#F1F1F1] rounded-lg h-80"></div>
+          <div className="bg-[url(/yx1earphones.png)] bg-no-repeat bg-cover bg-center rounded-lg h-80">
+         
+          </div>
           <div className="bg-[#F1F1F1] rounded-lg p-16 flex flex-col justify-center">
             <h3 className="text-[28px] font-bold tracking-[2px] mb-8">YX1 EARPHONES</h3>
             <Link 

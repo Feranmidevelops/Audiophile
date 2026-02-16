@@ -5,6 +5,7 @@ import Home from './pages/Home';
 import Headphones from './pages/Headphones';
 import Speakers from './pages/Speakers';
 import Earphones from './pages/Earphones';
+import ProductDetails from './pages/ProductDetails';
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
         <Route path="/headphones" element={<Headphones />} />
         <Route path="/speakers" element={<Speakers />} />
         <Route path="/earphones" element={<Earphones />} />
+        <Route path="/product/:slug" element={<ProductDetails />} />
       </Routes>
     </Router>
   );

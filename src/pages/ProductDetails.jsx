@@ -1,137 +1,199 @@
-
-import { useParams, useNavigate, Link } from 'react-router-dom';
-import { products } from '../data/products';
-import Header from '../components/Header';
-import Footer from '../components/Footer';
+import React, { useState } from 'react';
+import { Link, useParams, useNavigate } from 'react-router-dom';
+import Layout from '../components/Layout';
 import CategoryNav from '../components/CategoryNav';
 import AboutSection from '../components/AboutSection';
+import Footer from '../components/Footer';
+import Button from '../components/ui/Button';
+import { products } from '../data/products';
 
 const ProductDetail = () => {
   const { slug } = useParams();
   const navigate = useNavigate();
+  const [quantity, setQuantity] = useState(1);
+
   const product = products.find(p => p.slug === slug);
 
   if (!product) {
-    return <div>Product not found</div>;
+    return (
+      <Layout>
+        <section className="max-w-[1110px] mx-auto px-6 py-20 text-center">
+          <h2 className="text-[32px] font-bold mb-8 uppercase tracking-[1.14px]">Product Not Found</h2>
+          <p className="text-[15px] leading-[25px] text-black/50 mb-12">
+            Sorry, we couldn't find the product you're looking for.
+          </p>
+          <Button variant="primary" onClick={() => navigate('/')}>
+            Back to Home
+          </Button>
+        </section>
+      </Layout>
+    );
   }
 
-  return (
-    <div className="font-manrope">
-      <Header />
+  const handleQuantityChange = (action) => {
+    if (action === 'increase') {
+      setQuantity(prev => prev + 1);
+    } else if (action === 'decrease' && quantity > 1) {
+      setQuantity(prev => prev - 1);
+    }
+  };
 
-      <main className="container mx-auto px-6 py-16">
+  const handleAddToCart = () => {
+    console.log('Add to cart:', { product, quantity });
+  };
+
+  return (
+    <Layout>
+      <section className="max-w-[1110px] mx-auto px-6 tablet:px-10 desktop:px-0 py-20 tablet:py-[120px]">
         {/* Go Back button */}
         <button
           onClick={() => navigate(-1)}
-          className="text-black/50 hover:text-[#D0BDA4] text-[15px] mb-16"
+          className="text-[15px] leading-[25px] bg-[#D87D4A] p-2  text-black/50  mb-14 tablet:mb-[56px] transition-colors w-fit "
         >
           Go Back
         </button>
 
-        {/* Product main section */}
-        <div className="flex items-start gap-24 mb-32">
-          {/* Image */}
-          <div className={`w-1/2 h-[560px] ${product.image} rounded-lg relative overflow-hidden`}>
-            {product.slug === 'zx9-speaker' && (
-              <div className="absolute inset-0 flex items-center justify-center">
-                <div className="w-80 h-80 bg-black/20 rounded-full"></div>
-              </div>
-            )}
+        {/* Product Info */}
+        <div className="flex flex-col desktop:flex-row items-center gap-[69px] desktop:gap-[125px] mb-[88px] desktop:mb-[160px]">
+          {/* Product Image */}
+          <div className="w-full desktop:w-1/2">
+            <div className="bg-[#F1F1F1] rounded-lg overflow-hidden h-[327px] tablet:h-[480px] desktop:h-[560px] flex items-center justify-center">
+              <img
+                src={product.image}
+                alt={product.name}
+                className="w-full h-full object-contain object-center"
+              />
+            </div>
           </div>
 
-          {/* Details */}
-          <div className="w-1/2 max-w-md">
+          {/* Product Details */}
+          <div className="w-full desktop:w-1/2 text-center desktop:text-left flex flex-col items-center desktop:items-start">
             {product.isNew && (
-              <p className="text-[#D0BDA4] text-[14px] tracking-[10px] mb-4">
+              <p className="text-[14px] tracking-[10px] text-[#D87D4A] uppercase mb-4 tablet:mb-4">
                 NEW PRODUCT
               </p>
             )}
-            <h2 className="text-[40px] font-bold leading-[44px] tracking-[1.5px] mb-8">
+            <h1 className="text-[28px] tablet:text-[40px] font-bold leading-[1.1] uppercase mb-6 tablet:mb-8 tracking-[1px] tablet:tracking-[1.43px] max-w-[400px]">
               {product.name}
-            </h2>
-            <p className="text-black/50 mb-8">
+            </h1>
+            <p className="text-[15px] leading-[25px] text-black/50 mb-6 tablet:mb-8 max-w-[445px]">
               {product.description}
             </p>
-            <p className="text-[18px] font-bold tracking-[1.3px] mb-8">
-              ${product.price.toLocaleString()}
+            <p className="text-[18px] font-bold tracking-[1.29px] mb-8 tablet:mb-[47px]">
+              $ {product.price.toLocaleString()}
             </p>
 
-            {/* Add to Cart / Quantity selector */}
-            <div className="flex items-center gap-4">
-              {product.slug === 'zx9-speaker' ? (
-                <>
-                  <div className="flex items-center bg-[#F1F1F1]">
-                    <button className="px-5 py-4 text-black/50 hover:text-[#D0BDA4]">-</button>
-                    <span className="px-4 py-4 font-bold">1</span>
-                    <button className="px-5 py-4 text-black/50 hover:text-[#D0BDA4]">+</button>
-                  </div>
-                  <button className="bg-[#D0BDA4] hover:bg-[#F8AF85] text-white px-8 py-4 text-[13px] font-bold tracking-[1px] transition-colors">
-                    AUDIO TO CART
-                  </button>
-                </>
-              ) : (
-                <button className="bg-[#D0BDA4] hover:bg-[#F8AF85] text-white px-8 py-4 text-[13px] font-bold tracking-[1px] transition-colors">
-                  ADD TO CART
+            {/* Quantity & Add to Cart */}
+            <div className="flex items-center gap-4 w-full tablet:w-auto">
+              <div className="bg-[#F1F1F1] flex items-center">
+                <button
+                  onClick={() => handleQuantityChange('decrease')}
+                  className="px-[15.5px] py-[15px] text-[13px] tracking-[1px] text-black/25 hover:text-[#D87D4A] transition-colors font-bold"
+                  aria-label="Decrease quantity"
+                >
+                  −
                 </button>
-              )}
+                <span className="px-4 text-[13px] tracking-[1px] font-bold min-w-[40px] text-center">{quantity}</span>
+                <button
+                  onClick={() => handleQuantityChange('increase')}
+                  className="px-[15.5px] py-[15px] text-[13px] tracking-[1px] text-black/25 hover:text-[#D87D4A] transition-colors font-bold"
+                  aria-label="Increase quantity"
+                >
+                  +
+                </button>
+              </div>
+
+              <Button 
+              className=" !bg-[#D87D4A]" 
+              onClick={handleAddToCart}>
+                ADD TO CART
+              </Button>
             </div>
           </div>
         </div>
 
-        {/* Features & In the box */}
-        <div className="flex gap-24 mb-32">
-          <div className="w-2/3">
-            <h3 className="text-[32px] font-bold leading-[36px] tracking-[1.5px] mb-8">
-              FEATURES
-            </h3>
-            <p className="text-black/50 whitespace-pre-line">
-              {product.features}
-            </p>
+        {/* Features & In the Box */}
+        <div className="flex flex-col desktop:flex-row gap-[88px] desktop:gap-[125px] mb-[88px] desktop:mb-[160px]">
+          <div className="desktop:w-[635px]">
+            <h2 className="text-[24px] tablet:text-[32px] font-bold leading-[1.125] uppercase mb-6 tablet:mb-8 tracking-[0.86px] tablet:tracking-[1.14px]">FEATURES</h2>
+            <div className="text-[15px] leading-[25px] text-black/50 space-y-6">
+              {product.features.split('\n\n').map((paragraph, index) => (
+                <p key={index}>{paragraph}</p>
+              ))}
+            </div>
           </div>
-          <div className="w-1/3">
-            <h3 className="text-[32px] font-bold leading-[36px] tracking-[1.5px] mb-8">
-              IN THE BOX
-            </h3>
-            <ul className="space-y-3">
-              {product.includes.map((item, index) => (
-                <li key={index} className="flex items-baseline">
-                  <span className="text-[#D0BDA4] font-bold w-8">{item.quantity}x</span>
-                  <span className="text-black/50">{item.item}</span>
+
+          <div className="desktop:w-[350px]">
+            <h2 className="text-[24px] tablet:text-[32px] font-bold leading-[1.125] uppercase mb-6 tablet:mb-8 tracking-[0.86px] tablet:tracking-[1.14px]">IN THE BOX</h2>
+            <ul className="space-y-2">
+              {product.inBox.map((item, index) => (
+                <li key={index} className="flex items-start gap-6">
+                  <span className="text-[15px] leading-[25px] text-[#D87D4A] font-bold min-w-[20px]">
+                    {item.quantity}x
+                  </span>
+                  <span className="text-[15px] leading-[25px] text-black/50">
+                    {item.item}
+                  </span>
                 </li>
               ))}
             </ul>
           </div>
         </div>
 
+        {/* Gallery */}
+        <div className="grid grid-cols-1 tablet:grid-cols-[40%_60%] desktop:grid-cols-[445px_1fr] gap-5 tablet:gap-[18px] desktop:gap-[30px] mb-[120px] desktop:mb-[160px]">
+          <div className="space-y-5 tablet:space-y-[18px] desktop:space-y-[30px]">
+            <div className="bg-[#F1F1F1] rounded-lg overflow-hidden h-[174px] tablet:h-[174px] desktop:h-[280px]">
+              <img
+                src={product.gallery[0]}
+                alt="Gallery image 1"
+                className="w-full h-full object-cover"
+              />
+            </div>
+            <div className="bg-[#F1F1F1] rounded-lg overflow-hidden h-[174px] tablet:h-[174px] desktop:h-[280px]">
+              <img
+                src={product.gallery[1]}
+                alt="Gallery image 2"
+                className="w-full h-full object-cover"
+              />
+            </div>
+          </div>
+          <div className="bg-[#F1F1F1] rounded-lg overflow-hidden h-[368px] tablet:h-[368px] desktop:h-[592px]">
+            <img
+              src={product.gallery[2]}
+              alt="Gallery image 3"
+              className="w-full h-full object-cover"
+            />
+          </div>
+        </div>
+
         {/* You May Also Like */}
-        <div className="mb-32">
-          <h3 className="text-[32px] font-bold leading-[36px] tracking-[1.5px] text-center mb-16">
-            YOU MAY ALSO LIKE
-          </h3>
-          <div className="grid grid-cols-3 gap-8">
-            {product.others.map((other) => (
-              <div key={other.slug} className="text-center">
-                <div className="bg-[#F1F1F1] h-80 rounded-lg mb-8"></div>
-                <h4 className="text-[24px] font-bold leading-[33px] tracking-[1.7px] mb-8">
-                  {other.name}
-                </h4>
-                <Link
-                  to={`/product/${other.slug}`}
-                  className="inline-block bg-[#D0BDA4] hover:bg-[#F8AF85] text-white px-8 py-4 text-[13px] font-bold tracking-[1px] transition-colors"
-                >
-                  SEE PRODUCT
+        <div className="text-center mb-[120px] desktop:mb-[60px]">
+          <h2 className="text-[24px] tablet:text-[32px] font-bold leading-[1.125] uppercase mb-10 tablet:mb-[56px] desktop:mb-[64px] tracking-[0.86px] tablet:tracking-[1.14px]">YOU MAY ALSO LIKE</h2>
+          <div className="grid grid-cols-1 tablet:grid-cols-3 gap-[56px] tablet:gap-[11px] desktop:gap-[30px]">
+            {product.relatedProducts.map((related) => (
+              <div key={related.slug} className="text-center">
+                <div className="bg-[#F1F1F1] rounded-lg overflow-hidden h-[120px] tablet:h-[318px] mb-8 tablet:mb-10 flex items-center justify-center">
+                  <img
+                    src={related.image}
+                    alt={related.name}
+                    className="w-full h-full object-contain object-center"
+                  />
+                </div>
+                <h3 className="text-[24px] font-bold leading-[1.125] uppercase mb-8 tracking-[1.71px]">{related.name}</h3>
+                <Link to={`/product/${related.slug}`}>
+                  <Button className='!bg-[#D87D4A]'>SEE PRODUCT</Button>
                 </Link>
               </div>
             ))}
           </div>
         </div>
+      </section>
 
-        <CategoryNav />
-        <AboutSection />
-      </main>
-
+      <CategoryNav />
+      <AboutSection />
       <Footer />
-    </div>
+    </Layout>
   );
 };
 
