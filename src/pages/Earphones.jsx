@@ -5,7 +5,7 @@ import CategoryNav from '../components/CategoryNav';
 import AboutSection from '../components/AboutSection';
 import Footer from '../components/Footer';
 import { useNavigate } from 'react-router-dom';
-import { products } from '../data/products';
+import { products } from '../data/Products';
 
 const Earphones = () => {
   const navigate = useNavigate();

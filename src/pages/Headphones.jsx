@@ -5,7 +5,7 @@ import CategoryNav from '../components/CategoryNav';
 import AboutSection from '../components/AboutSection';
 import Footer from '../components/Footer';
 import { useNavigate } from 'react-router-dom';
-import { products } from '../data/products'; // Make sure the path matches your file (lowercase)
+import { products } from '../data/Products';
 
 const Headphones = () => {
   const navigate = useNavigate();

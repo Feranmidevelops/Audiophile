@@ -5,7 +5,7 @@ import CategoryNav from '../components/CategoryNav';
 import AboutSection from '../components/AboutSection';
 import Footer from '../components/Footer';
 import Button from '../components/ui/Button';
-import { products } from '../data/products';
+import { products } from '../data/Products';
 import { useCart } from '../cart/CartContext';
 
 const ProductDetail = () => {
