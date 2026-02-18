@@ -1,16 +1,32 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useCart } from '../cart/CartContext';
 
-const Cart = ({ isOpen, onClose, cartItems, onUpdateQuantity, onRemoveAll, onCheckout }) => {
-  if (!isOpen) return null;
+const Cart = () => {
+  const navigate = useNavigate();
+  const { 
+    cartItems, 
+    updateQuantity, 
+    clearCart, 
+    isCartOpen, 
+    closeCart 
+  } = useCart();
+
+  if (!isCartOpen) return null;
 
   const total = cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+
+  const handleCheckout = () => {
+    closeCart();
+    navigate('/checkout');
+  };
 
   return (
     <>
       {/* Backdrop */}
       <div 
         className="fixed inset-0 bg-black/50 z-40"
-        onClick={onClose}
+        onClick={closeCart}
       ></div>
 
       {/* Modal */}
@@ -21,7 +37,7 @@ const Cart = ({ isOpen, onClose, cartItems, onUpdateQuantity, onRemoveAll, onChe
             CART ({cartItems.length})
           </h2>
           <button 
-            onClick={onRemoveAll}
+            onClick={clearCart}
             className="text-[15px] leading-[25px] text-black/50 hover:text-[#D87D4A] underline transition-colors"
           >
             Remove all
@@ -54,7 +70,7 @@ const Cart = ({ isOpen, onClose, cartItems, onUpdateQuantity, onRemoveAll, onChe
               {/* Quantity Controls */}
               <div className="bg-[#F1F1F1] flex items-center">
                 <button
-                  onClick={() => onUpdateQuantity(item.id, item.quantity - 1)}
+                  onClick={() => updateQuantity(item.id, item.quantity - 1)}
                   className="px-[15.5px] py-[7px] text-[13px] tracking-[1px] text-black/25 hover:text-[#D87D4A] transition-colors font-bold"
                   aria-label="Decrease quantity"
                 >
@@ -64,7 +80,7 @@ const Cart = ({ isOpen, onClose, cartItems, onUpdateQuantity, onRemoveAll, onChe
                   {item.quantity}
                 </span>
                 <button
-                  onClick={() => onUpdateQuantity(item.id, item.quantity + 1)}
+                  onClick={() => updateQuantity(item.id, item.quantity + 1)}
                   className="px-[15.5px] py-[7px] text-[13px] tracking-[1px] text-black/25 hover:text-[#D87D4A] transition-colors font-bold"
                   aria-label="Increase quantity"
                 >
@@ -87,7 +103,7 @@ const Cart = ({ isOpen, onClose, cartItems, onUpdateQuantity, onRemoveAll, onChe
 
         {/* Checkout Button */}
         <button 
-          onClick={onCheckout}
+          onClick={handleCheckout}
           className="w-full bg-[#D87D4A] hover:bg-[#FBAF85] text-white py-[15px] text-[13px] font-bold tracking-[1px] uppercase transition-colors"
         >
           CHECKOUT

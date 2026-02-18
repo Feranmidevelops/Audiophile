@@ -6,11 +6,13 @@ import AboutSection from '../components/AboutSection';
 import Footer from '../components/Footer';
 import Button from '../components/ui/Button';
 import { products } from '../data/products';
+import { useCart } from '../cart/CartContext';
 
 const ProductDetail = () => {
   const { slug } = useParams();
   const navigate = useNavigate();
   const [quantity, setQuantity] = useState(1);
+  const { addToCart, openCart } = useCart();
 
   const product = products.find(p => p.slug === slug);
 
@@ -39,7 +41,9 @@ const ProductDetail = () => {
   };
 
   const handleAddToCart = () => {
-    console.log('Add to cart:', { product, quantity });
+    addToCart(product, quantity);
+    openCart();
+    setQuantity(1);
   };
 
   return (
@@ -48,7 +52,7 @@ const ProductDetail = () => {
         {/* Go Back button */}
         <button
           onClick={() => navigate(-1)}
-          className="text-[15px] leading-[25px] bg-[#D87D4A] p-2  text-black/50  mb-14 tablet:mb-[56px] transition-colors w-fit "
+          className="text-[15px] leading-[25px] text-black/50 hover:text-[#D87D4A] mb-14 tablet:mb-[56px] transition-colors"
         >
           Go Back
         </button>
@@ -104,8 +108,9 @@ const ProductDetail = () => {
               </div>
 
               <Button 
-              className=" !bg-[#D87D4A]" 
-              onClick={handleAddToCart}>
+                className="!bg-[#D87D4A] hover:!bg-[#FBAF85]" 
+                onClick={handleAddToCart}
+              >
                 ADD TO CART
               </Button>
             </div>
@@ -182,7 +187,7 @@ const ProductDetail = () => {
                 </div>
                 <h3 className="text-[24px] font-bold leading-[1.125] uppercase mb-8 tracking-[1.71px]">{related.name}</h3>
                 <Link to={`/product/${related.slug}`}>
-                  <Button className='!bg-[#D87D4A]'>SEE PRODUCT</Button>
+                  <Button className='!bg-[#D87D4A] hover:!bg-[#FBAF85]'>SEE PRODUCT</Button>
                 </Link>
               </div>
             ))}
